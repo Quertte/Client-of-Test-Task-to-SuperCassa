@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import countries from '../../config/countries.json';
+import phoneContext from '../../context/context';
 
 function AddPhone() {
   const { countryCode } = countries;
@@ -9,6 +10,8 @@ function AddPhone() {
   const [numberError, setIsNumberError] = useState('Поле не может быть пустым');
 
   const [selectedCode, setSelectedCode] = useState(countryCode[1].code);
+
+  const { state, dispatch } = useContext(phoneContext);
 
   const blurhandler = () => {
     setIsNumber(true);
@@ -28,8 +31,19 @@ function AddPhone() {
     }
   };
 
+  const handlerSubmit = (e) => {
+    e.preventDefault();
+    const newNumber = {
+      id: state.phones.length + 1,
+      number: `${selectedCode}${number}`,
+    };
+    // setPhones([...phones, newNumber]);
+    dispatch({ type: 'ADD_PHONE', payload: newNumber });
+    setNumber('');
+  };
+
   return (
-    <form>
+    <form onSubmit={handlerSubmit}>
       <select value={selectedCode} onChange={(e) => setSelectedCode(e.target.value)}>
         {countryCode.map((code) => (
           <option key={code.code} value={code.code}>
@@ -41,6 +55,7 @@ function AddPhone() {
       </select>
       {(isNumber && numberError) && <div style={{ color: 'red' }}>{numberError}</div>}
       <input onBlur={blurhandler} type="number" value={number} onChange={numberHandler} />
+      <button type="submit">Добавить номер</button>
     </form>
   );
 }

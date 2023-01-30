@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import phoneContext from '../../context/context';
 import PhoneItem from '../PhoneItem/PhoneItem';
 
-function PhoneList({ phones }) {
+function PhoneList() {
+  const { state } = useContext(phoneContext);
   return (
     <ul>
-      {phones.length ? phones.map(
+      {state.phones.length ? state.phones.map(
         (phone) => <PhoneItem key={phone.id} number={phone.number} />,
-      ) : <h3>No phines</h3>}
+      ) : <h3>No phones</h3>}
     </ul>
   );
 }
