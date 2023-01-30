@@ -1,0 +1,19 @@
+{
+  "countryCode": [
+    {
+      "code": "+1",
+      "name": "USA",
+      "flag": "🇺🇸"
+    },
+    {
+      "code": "+7",
+      "name": "RUSSIA",
+      "flag": "🇷🇺"
+    },
+    {
+      "code": "+33",
+      "name": "France",
+      "flag": "🇫🇷"
+    }
+  ]
+}
