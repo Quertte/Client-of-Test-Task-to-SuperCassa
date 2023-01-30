@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPhone } from '../../actions/phoneActionCreators';
 import countries from '../../config/countries.json';
-import phoneContext from '../../context/context';
 
 function AddPhone() {
   const { countryCode } = countries;
@@ -11,7 +12,8 @@ function AddPhone() {
 
   const [selectedCode, setSelectedCode] = useState(countryCode[1].code);
 
-  const { state, dispatch } = useContext(phoneContext);
+  const { phones } = useSelector((store) => store.phoneStore);
+  const dispatch = useDispatch();
 
   const blurhandler = () => {
     setIsNumber(true);
@@ -34,11 +36,10 @@ function AddPhone() {
   const handlerSubmit = (e) => {
     e.preventDefault();
     const newNumber = {
-      id: state.phones.length + 1,
+      id: phones.length + 1,
       number: `${selectedCode}${number}`,
     };
-    // setPhones([...phones, newNumber]);
-    dispatch({ type: 'ADD_PHONE', payload: newNumber });
+    dispatch(addPhone(newNumber));
     setNumber('');
   };
 
