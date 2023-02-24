@@ -1,0 +1,14 @@
+.input {
+  margin-right: .7rem;
+}
+
+.error {
+  color: red;
+  height: 20px;
+}
+
+
+
+/* .error-show {
+  visibility: inherit;
+} */
