@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PhoneItem.module.css';
 
-function PhoneItem({ number, index }) {
+function PhoneItem({ number, index, code }) {
   return (
     <li className={styles['phone-item']}>
       <strong>
@@ -9,7 +9,7 @@ function PhoneItem({ number, index }) {
         .
         {'   '}
       </strong>
-      {number}
+      {`${code} (${number.slice(0, 3)}) ${number.slice(3)}`}
     </li>
   );
 }

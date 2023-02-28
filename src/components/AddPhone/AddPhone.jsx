@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// import InputMask from 'react-input-mask';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { addPhone } from '../../actions/phoneActionCreators';
 import countries from '../../config/countries.json';
 import styles from './AddPhone.module.css';
@@ -13,7 +13,6 @@ function AddPhone() {
 
   const [selectedCode, setSelectedCode] = useState(countryCode[1].code);
 
-  const { phones } = useSelector((store) => store.phoneStore);
   const dispatch = useDispatch();
 
   const numberHandler = (e) => {
@@ -33,20 +32,27 @@ function AddPhone() {
   const handlerSubmit = (e) => {
     e.preventDefault();
     if (number.trim() && !isNaN(number) && number.length >= 3 && number.length < 11) {
-      const newNumber = {
-        id: phones.length + 1,
-        number: `${selectedCode}${number}`,
-      };
-      dispatch(addPhone(newNumber));
+      const infoCountry = countryCode.find((el) => el.code === selectedCode);
+      axios.post('/api/phones', {
+        code: selectedCode,
+        number,
+        country: infoCountry.name,
+        flag: infoCountry.flag,
+      })
+        .then((res) => {
+          dispatch(addPhone(res.data));
+          setNumber('');
+        });
+    } else {
+      setIsNumberError('Поле не может быть пустым');
     }
-    setNumber('');
   };
 
   return (
     <form onSubmit={handlerSubmit}>
       <select value={selectedCode} onChange={(e) => setSelectedCode(e.target.value)}>
-        {countryCode.map((code) => (
-          <option key={code.code} value={code.code}>
+        {countryCode.map((code, index) => (
+          <option key={index + Number(number)} value={code.code}>
             {code.flag}
             {' '}
             {code.code}
@@ -55,17 +61,10 @@ function AddPhone() {
       </select>
       <input
         className={styles.input}
-        // onBlur={blurhandler}
-        // type="number"
         value={number}
         onChange={numberHandler}
       />
-      {/* <InputMask onBlur={blurhandler}
-      value={number} onChange={numberHandler} mask="(999) 999-99-99" maskChar="_">
-        {(inputProps) => <input value={number} {...inputProps} type="text" />}
-      </InputMask> */}
       <button type="submit">Добавить номер</button>
-      {/* {numberError &&  */}
       <div className={styles.error}>{numberError}</div>
     </form>
   );
