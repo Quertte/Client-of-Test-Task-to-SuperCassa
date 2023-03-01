@@ -1,13 +1,10 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import axios from 'axios';
 import io from 'socket.io-client';
 import { addPhone } from '../../actions/phoneActionCreators';
 import countries from '../../config/countries.json';
 import styles from './AddPhone.module.css';
-
-// const socketClient = new WebSocket('ws://localhost:4000/');
 
 const socket = io('http://localhost:4000');
 
@@ -45,28 +42,6 @@ function AddPhone() {
     e.preventDefault();
     if (number.trim() && !isNaN(number) && number.length >= 3 && number.length < 11) {
       const infoCountry = countryCode.find((el) => el.code === selectedCode);
-      // axios.post('/api/phones', {
-      //   code: selectedCode,
-      //   number,
-      //   country: infoCountry.name,
-      //   flag: infoCountry.flag,
-      // })
-      //   .then((res) => {
-      //     dispatch(addPhone(res.data));
-      //     setNumber('');
-      //   });
-      // socketClient.send(JSON.stringify({
-      //   code: selectedCode,
-      //   number,
-      //   country: infoCountry.name,
-      //   flag: infoCountry.flag,
-      // }));
-
-      // socketClient.addEventListener('message', (event) => {
-      //   const newPhone = JSON.parse(event.data);
-      //   dispatch(addPhone(newPhone));
-      //   setNumber('');
-      // });
       socket.emit('message', {
         code: selectedCode,
         number,
