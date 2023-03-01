@@ -2,7 +2,6 @@
 import React from 'react';
 import './App.css';
 import AddPhone from './components/AddPhone/AddPhone';
-import PhoneInput from './components/PhoneInput';
 import PhoneList from './components/PhoneList/PhoneList';
 
 function App() {

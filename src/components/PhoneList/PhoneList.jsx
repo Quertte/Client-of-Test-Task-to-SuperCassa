@@ -11,8 +11,9 @@ function PhoneList() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    axios.get('/api/phones', { signal: abortController.signal })
+    axios.get('http://localhost:4000/api/phones', { signal: abortController.signal, credentials: 'include' })
       .then((res) => dispatch(getPhone(res.data)));
+
     return () => {
       abortController.abort();
     };
